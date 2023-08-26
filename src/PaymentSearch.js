@@ -1,7 +1,7 @@
-function TodoSearch() {
+function PaymentSearch() {
   return(
     <input placeholder="Tarea a buscar"/>
   );
 }
 
-export { TodoSearch };
+export { PaymentSearch };

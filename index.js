@@ -7,7 +7,7 @@ app.use(express.json());
 routerApi(app);
 
 app.get("/",(request, response)=>{
-  response.send("Hola mi server en express");
+  response.send("Ingresó a login");
 });
 
 
