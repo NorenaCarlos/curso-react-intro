@@ -57,7 +57,6 @@ for (let i = 0; i < Loans.length; i++) {
   Loans[i].collectedAmount = 0;
   Loans[i].lastPaid = "24/08/2023";
 }
-console.log(Loans);
 const Payments = [{}]
 
 function App() {
@@ -75,7 +74,14 @@ function App() {
           Nfees={Loan.Nfees}
           loanAmount={Loan.loanAmount}
           clientId={Loan.clientId}
-          lenderId={Loan.lenderId}/>
+          lenderId={Loan.lenderId}
+          client={(client)=>{
+            for (let index = 0; index < clients.length; index++) {
+              if(clients[index].clientId===Loan.clientId){
+                return(clients[index]);
+              }
+            }
+          }}/>
         ))}
       </PaymentList>
       <CreateTodoButton/>
