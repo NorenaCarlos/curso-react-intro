@@ -1,13 +1,31 @@
+import "./Payment.css";
 function Payment(props) {
   return(
-    <li>
-      <p>{props.loanId}</p>
-      <p>{props.interest}</p>
-      <p>{props.Nfees}</p>
-      <p>{props.loanAmount}</p>
-      <p>{props.clientId}</p>
-      <p>{props.lenderId}</p>
-    </li>
+    <tr onClick={()=>{
+      console.log("le diste click al Loan "+ props.loanId);
+    }}>
+      <td>
+        <p>{props.loanId}</p>
+      </td>
+      <td>
+        <p>{props.interest}</p>
+      </td>
+      <td>
+        <p>{props.Nfees}</p>
+      </td>
+      <td>
+        <p>{props.loanAmount}</p>
+      </td>
+      <td>
+        <p>{props.clientId}</p>
+      </td>
+      <td>
+        <p>{props.lenderId}</p>
+      </td>
+      <td>
+        <p>{props.client}</p>
+      </td>
+    </tr>
   );
 }
 
