@@ -7,7 +7,6 @@ import React from 'react';
 import './App.css';
 import { Login } from './Login';
 
-
 const clients = [
   {clientId:1,name:"Catalina Meneses",cc:"123456789",cellphone:"3124567801",address:"Calle 1 #01-01"},
   {clientId:2,name:"Lina Areiza",cc:"223456789",cellphone:"3124567802",address:"Calle 1 #01-02"},
@@ -60,21 +59,39 @@ for (let i = 0; i < Loans.length; i++) {
 const Payments = [{}]
 
 function App() {
+  const [searchValue, setSearchValue] = React.useState('');
+  console.log(searchValue);
+  const [payments, setPayments] = React.useState(Loans);
+  console.log(payments);
+  var hoy = new Date();
+  hoy=hoy.toLocaleDateString();
+
+  console.log(hoy);
+
+  // const counter = payments.filter(payment=>{
+  //   payment.lastPaid>
+  // })
   return (
     <React.Fragment>
       <Login/>
       <PaymentCounter completed={4} total={5}/>
-      <PaymentSearch/>
+      <PaymentSearch
+      searchValue={searchValue}
+      setSearchValue={setSearchValue}
+      />
 
       <PaymentList>
         {Loans.map(Loan => (
           <Payment key={Loan.loanId}
+          paymentCounter={payments}
+          setPaymentCounter={setPayments}
           loanId={Loan.loanId}
           interest={Loan.interest}
           Nfees={Loan.Nfees}
           loanAmount={Loan.loanAmount}
           clientId={Loan.clientId}
           lenderId={Loan.lenderId}
+          lastPaid={Loan.lastPaid}
           client={(client)=>{
             for (let index = 0; index < clients.length; index++) {
               if(clients[index].clientId===Loan.clientId){

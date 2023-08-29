@@ -1,5 +1,7 @@
 import "./Payment.css";
 function Payment(props) {
+  // var counter = props.paymentCounter;
+  // props.setPaymentCounter(counter++)
   return(
     <tr onClick={()=>{
       console.log("le diste click al Loan "+ props.loanId);
@@ -24,6 +26,9 @@ function Payment(props) {
       </td>
       <td>
         <p>{props.client}</p>
+      </td>
+      <td>
+        <p>{props.lastPaid}</p>
       </td>
     </tr>
   );

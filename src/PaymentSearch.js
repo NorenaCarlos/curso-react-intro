@@ -1,14 +1,15 @@
 import React from "react";
 import "./PaymentSearch.css"
 
-function PaymentSearch() {
+function PaymentSearch({searchValue,setSearchValue}) {
+
   return(
     <input placeholder="Tarea a nombre de cliente"
     className="paymentSearch"
+    value={searchValue}
     onChange={(event)=>{
-      console.log("Escribiste en el PaymentSearch");
-      console.log(event);
-      console.log(event.target.value);
+      setSearchValue(event.target.value);
+      //console.log(event.target.value);
 
 
     }}
