@@ -1,7 +1,9 @@
 class ClientsService{
   constructor(){
+
     this.clients = [];
     this.generate();
+    this.Id=this.clients.length+1;
   }
   generate(){
     this.clients = [
@@ -23,16 +25,47 @@ class ClientsService{
       {clientId:16,name:"Cesar Casas",cc:"1623456789",cellphone:"3124567816",address:"Calle 1 #01-16"},
       {clientId:17,name:"David Davalos",cc:"1723456789",cellphone:"3124567817",address:"Calle 1 #01-17"}]
   }
-  create(){
-
+  create(data){
+    const newClient = {
+      clientId:this.Id,
+      name: data.name,
+      cc: data.cc,
+      cellphone: data.cellphone,
+      address: data.address,
+    }
+    this.Id++;
+    this.clients.push(newClient);
+    return newClient;
   }
   find(){
     return(this.clients);
   }
   findOne(clientId){
     return(this.clients.find(client=>
-      client.clientId == clientId
+      client.clientId === clientId
     ));
+  }
+  update(clientId, changes){
+    const index = this.clients.findIndex(client=>
+      client.clientId == clientId
+    );
+    if(index===-1){
+      throw new Error("Client not found");
+    }else{
+      this.clients[index]= {clientId: clientId,name: changes.name, cc: changes.cc, cellphone: changes.cellphone, address: changes.address};
+      return this.clients[index];
+    }
+  }
+  delete(clientId){
+    const index = this.clients.findIndex(client=>
+      client.clientId == clientId
+    );
+    if(index===-1){
+      throw new Error("Client not found");
+    }else{
+      this.clients.splice(index,1);
+      return this.clients;
+    }
   }
 }
 

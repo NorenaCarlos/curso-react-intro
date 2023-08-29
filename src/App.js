@@ -54,27 +54,22 @@ for (let i = 0; i < Loans.length; i++) {
   Loans[i].collectAmount = Loans[0].loanAmount*1.2;
   Loans[i].NPaymentDones = 0;
   Loans[i].collectedAmount = 0;
-  Loans[i].lastPaid = "24/08/2023";
+  Loans[i].lastPaid = "24/8/2023";
 }
 const Payments = [{}]
 
 function App() {
   const [searchValue, setSearchValue] = React.useState('');
-  console.log(searchValue);
   const [payments, setPayments] = React.useState(Loans);
-  console.log(payments);
   var hoy = new Date();
   hoy=hoy.toLocaleDateString();
-
-  console.log(hoy);
-
-  // const counter = payments.filter(payment=>{
-  //   payment.lastPaid>
-  // })
+  const counter = payments.filter((payment)=>
+    payment.lastPaid<hoy
+  ).length;
   return (
     <React.Fragment>
       <Login/>
-      <PaymentCounter completed={4} total={5}/>
+      <PaymentCounter completed={counter} total={Loans.length}/>
       <PaymentSearch
       searchValue={searchValue}
       setSearchValue={setSearchValue}
@@ -83,8 +78,8 @@ function App() {
       <PaymentList>
         {Loans.map(Loan => (
           <Payment key={Loan.loanId}
-          paymentCounter={payments}
-          setPaymentCounter={setPayments}
+          payments={payments}
+          setPayments={setPayments}
           loanId={Loan.loanId}
           interest={Loan.interest}
           Nfees={Loan.Nfees}

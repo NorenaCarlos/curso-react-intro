@@ -9,9 +9,6 @@ function PaymentSearch({searchValue,setSearchValue}) {
     value={searchValue}
     onChange={(event)=>{
       setSearchValue(event.target.value);
-      //console.log(event.target.value);
-
-
     }}
     />
   );

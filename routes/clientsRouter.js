@@ -42,18 +42,15 @@ router.get("/:id",(request, response)=>{
 
 router.post("/",(request, response)=>{
   var data = request.body;
-  response.status(201).json(data);
+  const newClient = clientsService.create(data);
+  response.status(201).json(newClient);
 });
 
 router.patch("/",(request, response)=>{
-  const {id,balance} = request.query;
+  const {id} = request.query;
   var data = request.body;
-  response.json({
-    message: "updated",
-    data,
-    NewBalance: balance,
-    id
-  });
+  const client = clientsService.update(id,data);
+  response.status(201).json(client);
 });
 
 router.delete("/",(request, response)=>{

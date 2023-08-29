@@ -1,10 +1,12 @@
 import "./Payment.css";
 function Payment(props) {
-  // var counter = props.paymentCounter;
-  // props.setPaymentCounter(counter++)
+  var counter = props.payments;
   return(
     <tr onClick={()=>{
       console.log("le diste click al Loan "+ props.loanId);
+      const index = counter.findIndex((payment)=>payment.loanId==props.loanId)
+      counter[index].lastPaid="29/8/2023";
+      props.setPayments(counter);
     }}>
       <td>
         <p>{props.loanId}</p>
