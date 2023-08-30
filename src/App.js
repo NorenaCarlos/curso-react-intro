@@ -76,24 +76,13 @@ function App() {
       />
 
       <PaymentList>
-        {Loans.map(Loan => (
-          <Payment key={Loan.loanId}
+        {payments.map(payment => (
+          <Payment key={payment.loanId}
           payments={payments}
           setPayments={setPayments}
-          loanId={Loan.loanId}
-          interest={Loan.interest}
-          Nfees={Loan.Nfees}
-          loanAmount={Loan.loanAmount}
-          clientId={Loan.clientId}
-          lenderId={Loan.lenderId}
-          lastPaid={Loan.lastPaid}
-          client={(client)=>{
-            for (let index = 0; index < clients.length; index++) {
-              if(clients[index].clientId===Loan.clientId){
-                return(clients[index]);
-              }
-            }
-          }}/>
+          loanId = {payment.loanId}
+          client={clients.find(client => client.clientId === payment.clientId)
+          }/>
         ))}
       </PaymentList>
       <CreateTodoButton/>
