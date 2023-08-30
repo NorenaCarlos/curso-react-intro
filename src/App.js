@@ -63,20 +63,32 @@ function App() {
   const [payments, setPayments] = React.useState(Loans);
   var hoy = new Date();
   hoy=hoy.toLocaleDateString();
-  const counter = payments.filter((payment)=>
-    payment.lastPaid<hoy
-  ).length;
+  const searchClientsName = clients.filter((client) => {
+    const searchText = searchValue.toLowerCase();
+    return client.name.toLocaleLowerCase().includes(searchText);
+  });
+  const searchedLoan=[];
+  const aux = ()=>{payments.forEach(payment=>{
+    searchClientsName.forEach(element => {
+      if(element.clientId==payment.clientId){
+        searchedLoan=[...payment]
+      }
+    })
+  })};
+  aux();
+  console.log(searchClientsName);
+  console.log(searchedLoan);
   return (
     <React.Fragment>
       <Login/>
-      <PaymentCounter completed={counter} total={Loans.length}/>
+      <PaymentCounter payments={payments} setPayments={setPayments}/>
       <PaymentSearch
       searchValue={searchValue}
       setSearchValue={setSearchValue}
       />
 
       <PaymentList>
-        {payments.map(payment => (
+        {searchedLoan.map(payment => (
           <Payment key={payment.loanId}
           payments={payments}
           setPayments={setPayments}
