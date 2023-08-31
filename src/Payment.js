@@ -4,15 +4,13 @@ import { LastPay } from "./LastPay";
 function Payment({payments, setPayments, client, loanId}) {
   var counter = payments;
   var index = counter.findIndex(count => count.loanId === loanId);
-var hoy = new Date();
-hoy=hoy.toLocaleDateString();
+  var hoy = new Date();
+  hoy=hoy.toLocaleDateString();
   return(
     <tr onClick={()=>{
-      console.log("le diste click al Loan "+ loanId);
       const index = counter.findIndex((payment)=>payment.loanId === loanId);
       counter[index].lastPaid=hoy;
       setPayments(counter);
-      console.log(payments);
     }}>
       <td>
         <p>{payments[index].loanId}</p>

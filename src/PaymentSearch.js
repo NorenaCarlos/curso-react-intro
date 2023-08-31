@@ -2,7 +2,6 @@ import React from "react";
 import "./PaymentSearch.css"
 
 function PaymentSearch({searchValue,setSearchValue}) {
-
   return(
     <input placeholder="Tarea a nombre de cliente"
     className="paymentSearch"

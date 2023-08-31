@@ -58,26 +58,36 @@ for (let i = 0; i < Loans.length; i++) {
 }
 const Payments = [{}]
 
-function App() {
-  const [searchValue, setSearchValue] = React.useState('');
-  const [payments, setPayments] = React.useState(Loans);
-  var hoy = new Date();
-  hoy=hoy.toLocaleDateString();
+
+
+function searchLoans(payments, searchValue, setSearchValue) {
+  const searchedLoans=[];
   const searchClientsName = clients.filter((client) => {
     const searchText = searchValue.toLowerCase();
     return client.name.toLocaleLowerCase().includes(searchText);
   });
-  const searchedLoan=[];
-  const aux = ()=>{payments.forEach(payment=>{
+  payments.forEach(payment=>{
     searchClientsName.forEach(element => {
       if(element.clientId==payment.clientId){
-        searchedLoan=[...payment]
+        searchedLoans.push(payment);
       }
     })
-  })};
-  aux();
-  console.log(searchClientsName);
-  console.log(searchedLoan);
+  });
+  return searchedLoans;
+}
+function nonPaidStill(searchedLoans){
+  var hoy = new Date();
+  hoy=hoy.toLocaleDateString();
+  const nonPaid = searchedLoans.filter(searchLoan=>searchLoan.lastPaid<hoy);
+  return nonPaid;
+}
+
+function App() {
+  const [payments, setPayments] = React.useState(Loans);
+  const [searchValue, setSearchValue] = React.useState('');
+  const searchedLoans = searchLoans(payments,searchValue,setSearchValue);
+  const nonPaid = nonPaidStill(searchedLoans);
+  console.log(nonPaid);
   return (
     <React.Fragment>
       <Login/>
@@ -86,9 +96,8 @@ function App() {
       searchValue={searchValue}
       setSearchValue={setSearchValue}
       />
-
       <PaymentList>
-        {searchedLoan.map(payment => (
+        {nonPaid.map(payment => (
           <Payment key={payment.loanId}
           payments={payments}
           setPayments={setPayments}
