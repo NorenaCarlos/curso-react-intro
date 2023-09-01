@@ -26,11 +26,13 @@ const clients = [
   {clientId:16,name:"Cesar Casas",cc:"1623456789",cellphone:"3124567816",address:"Calle 1 #01-16"},
   {clientId:17,name:"David Davalos",cc:"1723456789",cellphone:"3124567817",address:"Calle 1 #01-17"}
 ]
+
 const lenders = [
   {lenderId:1,lenderUser:"aaaaaa1111",lenderEmail:"casadeprestamo1@admin.com",lenderName:"Guillermo Quiceno", cc:"1234567890",address:"Calle 2 #01-01",permisions:"111111",cellphone:"3134567892"},
   {lenderId:2,lenderUser:"bbbbbb1111",lenderEmail:"casadeprestamo2@admin.com",lenderName:"Patricio Duque", cc:"2234567890",address:"Calle 2 #01-02",permisions:"111111",cellphone:"3134567893"},
   {lenderId:3,lenderUser:"cccccc1111",lenderEmail:"casadeprestamo3@admin.com",lenderName:"Adrian Ocoro", cc:"3234567890",address:"Calle 2 #01-03",permisions:"111111",cellphone:"3134567894"}
 ]
+
 const Loans = [
   {loanId:1,interest:20,Nfees:24,loanAmount:1000000,clientId:1,lenderId:1},
   {loanId:2,interest:20,Nfees:24,loanAmount:1000000,clientId:2,lenderId:2},
@@ -50,14 +52,16 @@ const Loans = [
   {loanId:16,interest:20,Nfees:24,loanAmount:1000000,clientId:16,lenderId:1},
   {loanId:17,interest:20,Nfees:24,loanAmount:1000000,clientId:17,lenderId:2},
 ]
+
 for (let i = 0; i < Loans.length; i++) {
   Loans[i].collectAmount = Loans[0].loanAmount*1.2;
   Loans[i].NPaymentDones = 0;
   Loans[i].collectedAmount = 0;
-  Loans[i].lastPaid = "24/8/2023";
+  Loans[i].lastPaid = "2023/8/24";
 }
-const Payments = [{}]
 
+const Payments = [{}]
+var hoy = new Date();
 
 
 function searchLoans(payments, searchValue, setSearchValue) {
@@ -68,38 +72,44 @@ function searchLoans(payments, searchValue, setSearchValue) {
   });
   payments.forEach(payment=>{
     searchClientsName.forEach(element => {
-      if(element.clientId==payment.clientId){
+      if(element.clientId===payment.clientId){
         searchedLoans.push(payment);
       }
     })
   });
   return searchedLoans;
 }
+
 function nonPaidStill(searchedLoans){
-  var hoy = new Date();
-  hoy=hoy.toLocaleDateString();
-  const nonPaid = searchedLoans.filter(searchLoan=>searchLoan.lastPaid<hoy);
+  const nonPaid = searchedLoans.filter(searchedLoan=>{
+    const year = hoy.getFullYear();
+    const month = hoy.getMonth();
+    const day = hoy.getDate();
+    const date2 = new Date(year,month,day);
+    if(new Date(searchedLoan.lastPaid)<date2){
+      return searchedLoan;
+    }else{
+      return false;
+    }
+  });
   return nonPaid;
 }
 
 function collectedLoanToday(payments){
-  var hoy = new Date();
-  hoy=hoy.toLocaleDateString();
-  const paid = payments.filter(payment=>payment.lastPaid==hoy).length;
+  const paid = payments.filter(payment=>new Date(payment.lastPaid)===hoy).length;
   return paid;
 }
 
 function App() {
   const [payments, setPayments] = React.useState(Loans);
   const [searchValue, setSearchValue] = React.useState('');
+  const [loansPaid, setLoansPaid] = React.useState(collectedLoanToday(payments));
   const searchedLoans = searchLoans(payments,searchValue,setSearchValue);
   const searchedNonPaid = nonPaidStill(searchedLoans);
-  const collected = collectedLoanToday(payments);
-  console.log(collected);
   return (
     <React.Fragment>
       <Login/>
-      <PaymentCounter collected={collected} payments={payments} setPayments={setPayments}/>
+      <PaymentCounter loansPaid={loansPaid} setLoansPaid={setLoansPaid} payments={payments} setPayments={setPayments}/>
       <PaymentSearch
       searchValue={searchValue}
       setSearchValue={setSearchValue}
@@ -110,6 +120,8 @@ function App() {
           payments={payments}
           setPayments={setPayments}
           loanId = {payment.loanId}
+          loansPaid={loansPaid}
+          setLoansPaid={setLoansPaid}
           client={clients.find(client => client.clientId === payment.clientId)
           }/>
         ))}

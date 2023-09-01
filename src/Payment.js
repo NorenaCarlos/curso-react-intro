@@ -1,17 +1,11 @@
 import "./Payment.css";
 import { LastPay } from "./LastPay";
 
-function Payment({payments, setPayments, client, loanId}) {
+function Payment({payments, setPayments, client, loanId, loansPaid, setLoansPaid}) {
   var counter = payments;
   var index = counter.findIndex(count => count.loanId === loanId);
-  var hoy = new Date();
-  hoy=hoy.toLocaleDateString();
   return(
-    <tr onClick={()=>{
-      const index = counter.findIndex((payment)=>payment.loanId === loanId);
-      counter[index].lastPaid=hoy;
-      setPayments(counter);
-    }}>
+    <tr>
       <td>
         <p>{payments[index].loanId}</p>
       </td>
@@ -35,6 +29,8 @@ function Payment({payments, setPayments, client, loanId}) {
       </td>
       <td>
         <LastPay
+        loansPaid={loansPaid}
+        setLoansPaid={setLoansPaid}
         payments={payments}
         setPayments={setPayments}
         loanId = {payments[index].loanId}
