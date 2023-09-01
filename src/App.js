@@ -82,22 +82,30 @@ function nonPaidStill(searchedLoans){
   return nonPaid;
 }
 
+function collectedLoanToday(payments){
+  var hoy = new Date();
+  hoy=hoy.toLocaleDateString();
+  const paid = payments.filter(payment=>payment.lastPaid==hoy).length;
+  return paid;
+}
+
 function App() {
   const [payments, setPayments] = React.useState(Loans);
   const [searchValue, setSearchValue] = React.useState('');
   const searchedLoans = searchLoans(payments,searchValue,setSearchValue);
-  const nonPaid = nonPaidStill(searchedLoans);
-  console.log(nonPaid);
+  const searchedNonPaid = nonPaidStill(searchedLoans);
+  const collected = collectedLoanToday(payments);
+  console.log(collected);
   return (
     <React.Fragment>
       <Login/>
-      <PaymentCounter payments={payments} setPayments={setPayments}/>
+      <PaymentCounter collected={collected} payments={payments} setPayments={setPayments}/>
       <PaymentSearch
       searchValue={searchValue}
       setSearchValue={setSearchValue}
       />
       <PaymentList>
-        {nonPaid.map(payment => (
+        {searchedNonPaid.map(payment => (
           <Payment key={payment.loanId}
           payments={payments}
           setPayments={setPayments}
