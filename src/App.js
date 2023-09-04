@@ -110,6 +110,7 @@ function App() {
     <React.Fragment>
       <Login/>
       <PaymentCounter loansPaid={loansPaid} setLoansPaid={setLoansPaid} payments={payments} setPayments={setPayments}/>
+      <PaymentCounter loansPaid={loansPaid} setLoansPaid={setLoansPaid} payments={payments} setPayments={setPayments}/>
       <PaymentSearch
       searchValue={searchValue}
       setSearchValue={setSearchValue}
