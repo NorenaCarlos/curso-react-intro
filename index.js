@@ -6,9 +6,6 @@ app.use(express.json());
 
 routerApi(app);
 
-app.get("/",(request, response)=>{
-  response.send("Ingresó a login");
-});
 
 
 
